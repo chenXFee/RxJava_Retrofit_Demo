@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Demo</string>
+
+    <string name="userAccount">01</string>
+    <string name="main_head_lable">操作员: </string>
+
+
+    <string name="function_consumption">消费</string>
+    <string name="function_print">打印</string>
+    <string name="function_signin">签到</string>
+
+    <string name="RMB">¥</string>
+
+
+    <string name="signin">签到</string>
+    <string name="signout">签退</string>
+    <string name="user_signin">操作员签到</string>
+
+</resources>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".User.UserLoginActivity"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/color_e3e3e3">
+
+    <ImageView
+        android:id="@+id/iv_headpic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/sym_def_app_icon" />
+
+
+    <LinearLayout
+        android:id="@+id/tv_userAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginStart="@dimen/widget_size_30"
+        android:layout_marginEnd="@dimen/widget_size_30"
+        android:layout_marginTop="@dimen/widget_size_10">
+
+        <ImageView
+            android:id="@+id/iv_userAccount_pic"
+            android:layout_width="@dimen/widget_size_45"
+            android:layout_height="@dimen/widget_size_45"
+            android:src="@android:drawable/ic_menu_myplaces"
+            />
+
+        <EditText
+            android:id="@+id/et_userAccount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:hint="@string/user_account"
+            android:inputType="number"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tv_userPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/widget_size_30"
+        android:layout_marginEnd="@dimen/widget_size_30"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/widget_size_10">
+
+        <ImageView
+            android:id="@+id/iv_userPassword_pic"
+            android:layout_width="@dimen/widget_size_45"
+            android:layout_height="@dimen/widget_size_45"
+            android:src="@android:drawable/ic_menu_edit" />
+
+        <EditText
+            android:id="@+id/et_userPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:hint="@string/user_password"
+            android:inputType="numberPassword"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_userLogin"
+        android:layout_width="@dimen/widget_size_150"
+        android:layout_height="@dimen/widget_size_45"
+        android:background="@drawable/btn_fillet"
+        android:text="@string/btn_login"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="@dimen/widget_size_20"
+        />
+
+
+</LinearLayout>

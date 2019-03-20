@@ -23,15 +23,7 @@ import com.cxf.moudule_common.rxjava.RxBindUtils;
 import com.cxf.moudule_common.rxjava.RxJavaUtil;
 import com.cxf.moudule_common.util.IntentUtil;
 import com.cxf.moudule_common.util.ToastUtil;
-import com.start.smartpos.aidl.ServiceProvider;
-import com.start.smartpos.aidl.device.cardreader.CardInformation;
-import com.start.smartpos.aidl.device.cardreader.CardReaderListener;
-import com.start.smartpos.aidl.device.cardreader.CardReaderProvider;
-import com.start.smartpos.aidl.device.cardreader.RFCardProvider;
-import com.start.smartpos.aidl.device.pinpad.PinPadProvider;
-import com.start.smartpos.aidl.device.printer.PrinterFormat;
-import com.start.smartpos.aidl.device.printer.PrinterProvider;
-import com.start.smartpos.aidl.device.system.SystemProvider;
+
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -105,11 +97,6 @@ public class DealManagerActivity extends BaseActivity {
     private String acount;
     private String cardCode;
 
-    private CardReaderProvider cardReaderProvider = null;
-    private RFCardProvider rfCardProvider = null;
-    private PrinterProvider printerProvider = null;
-    private SystemProvider systemProvider = null;
-    private PinPadProvider pinPadProvider = null;
 
 
     @Override
@@ -130,119 +117,24 @@ public class DealManagerActivity extends BaseActivity {
 
     }
 
-    private void initProvider(ServiceProvider serviceProvider){
-        if(null==serviceProvider){
-            return;
-        }
-        try{
-            cardReaderProvider = serviceProvider.getCardReaderProvider();
-            printerProvider = serviceProvider.getPrinterProvider();
-            pinPadProvider = serviceProvider.getPinPadProvider();
-            systemProvider = serviceProvider.getSystemProvider();
-            rfCardProvider = serviceProvider.getRFCardProvider();
-            Log.i("tag","info---------获取provider成功");
-        }catch (RemoteException remoteException) {
-            ToastUtil.showShort(DealManagerActivity.this,"获取provider失败");
-            return;
-        }catch (Exception e){
-            Log.e("tag","error--------"+e.getMessage());
-            e.printStackTrace();
-        }
-
-    }
 
 
-    public void bindService() {
-        Intent intent = new Intent();
-        intent.setAction("com.start.smartpos.AIDL_SERVICE").setPackage("com.start.smartpos");
-        boolean isSuccess =bindService(intent, conn, Context.BIND_AUTO_CREATE);
-        if(isSuccess){
-            Log.i("Tag", "-------连接服务成功！");
-        }else{
-            Log.e("Tag", "-------连接服务失败！");
-        }
-    }
 
-    private ServiceProvider mAIDLService=null;
-    private ServiceConnection conn = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.i("Tag", "-------服务绑定成功");
-            mAIDLService = ServiceProvider.Stub.asInterface(service);
-            initProvider(mAIDLService);
-            setCardListener();
-            if(null==mAIDLService){
-                Log.i("Tag", "-------mAIDLService为空");
-            }else{
-                Log.i("Tag", "-------mAIDLService不为空");
-            }
-        }
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Log.e("Tag", "-------服务绑定失败："+name.getPackageName());
-            mAIDLService = null;
-        }
-    };
+
+
+ 
 
     @Override
     protected void onDestroy() {
-        unbindService(conn);
+
         super.onDestroy();
     }
 
 
     //----------------------//
-    private void confirmCard(String cardNo){
-        tv_tips.setText("请确认卡号");
-        tv_cardCode.setVisibility(View.VISIBLE);
-        tv_cardCode.setText(cardNo);
-        ll_btnGroup2.setVisibility(View.VISIBLE);
-        btn_deal_cancel.setVisibility(View.GONE);
-    }
-
-    private void setCardListener(){
-        try {
-            cardReaderProvider.readCard(TIME_OUT, CardInformation.CARD_MAG, new CardReaderListener.Stub() {
-                @Override
-                public void onReadCardResult(int i, CardInformation cardInformation) throws RemoteException {
-                    cardCode = cardInformation.getCardNo();
-                    //广播通知更改ui
-                    EventBus.getDefault().post(new DealChangeUIEvent());
-                }
-
-            });
 
 
 
-        }catch (RemoteException remoteException){
-            Log.e("tag","error--------"+remoteException.getMessage());
-            return;
-        }catch (Exception e){
-            Log.e("tag","error--------"+e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-//    private void actionPrint(){
-//        if(null==printerProvider){
-//            return;
-//        }
-//        try{
-//            printerProvider.prepareForPrint();
-//            printerProvider.printText(PrinterFormat,"asdasasdasd");
-//        }catch (RemoteException e){
-//            Log.e("tag","error-------"+e.getMessage());
-//        }
-//
-//    }
 
 
-    @Override
-    public void onMessageEvent(IEvent event) {
-        if(event instanceof DealChangeUIEvent){
-            if(null!=cardCode) {
-                confirmCard(cardCode);
-            }
-        }
-    }
 }
